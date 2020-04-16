@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    body,
+    html,
+    .container-fluid {
+      height: 100%;
+    }
+
+    .spinner {
+  width: 100px;
+  height: 100px;
+  background-color: rgb(4, 13, 136);
+
+  margin: 100px auto;
+  -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+  animation: sk-rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes sk-rotateplane {
+  0% { 
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg) 
+  } 50% { 
+    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg) 
+  } 100% { 
+    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light" style="background-color: #349A7B;">
+    <a href="" class="navbar-brand">AKAIKE TECHNOLOGIES</a>
+  </nav>
+
+
+
+  <div class="container-fluid">
+
+    <div class="row" style="height:30%">
+
+      <div class="col-md-1"></div>
+
+      <div class="col-md-4">
+        <form action="/upload-image" method="POST" enctype="multipart/form-data">
+
+          <div class="form-group">
+            <br>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="image" id="image" onchange="readURL(this);">
+              <label class="custom-file-label" for="image">Select image...</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio1" value="chair" checked>
+              <label class="form-check-label" for="inlineRadio1">chair compliance</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio2" value="sales">
+              <label class="form-check-label" for="inlineRadio2">sales compliance</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio3" value="service">
+              <label class="form-check-label" for="inlineRadio3">service compliance</label>
+            </div>
+          </div>
+          <button type="submit" id="submit_button" class="btn btn-outline-primary" onclick="on_toggler()">Run-model</button>
+
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <div class="pad">
+          <br>
+        </div>
+        <div class='legend' id="legend">
+        {% if show_result %}
+        <div class="shadow p-3 mb-5 bg-white rounded">Results for {{model_name}} compliance</div>
+        {% endif %}
+      </div>
+      </div>
+
+      <div class="col-md-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+
+      <div class="col-md-4">
+
+        <div id="your_image">
+          <img id="uploaded_image" src="#" onerror="this.style.display='none'" />
+        </div>
+        <div id="input">
+          {% if show_result %}
+          <p><img src="{{input_image}}" height="400" width="400" id="current_input"></p>
+          {% endif %}
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        
+        <div class="animator" id="loader" style="display: none;">
+          <!-- <img src="../static/img/sa.gif" width="300" height="300" vspace="" >   -->
+          
+          <div class="spinner"></div>
+          <p style="text-align: center;" class="text-primary font-weight-bold">Running inference....</p>
+          </div>
+        <div id="result">
+          {% if show_result %}
+          <p><img src="{{ output_image}}" height="400" width="600" vspace=""></p>
+          <script>document.getElementById("submit_button").disabled = true;</script>
+          {% endif %}
+
+        </div>
+
+      
+
+        <div class="col-md-1"></div>
+    </div>
+  </div>
+</body>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</html>

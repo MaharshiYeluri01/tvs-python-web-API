@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <style>
+    body,
+    html,
+    .container-fluid {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light" style="background-color: #349A7B;">
+    <a href="" class="navbar-brand">AKAIKE TECHNOLOGIES</a>
+  </nav>
+
+
+
+  <div class="container-fluid">
+
+    <div class="row" style="height:30%">
+
+      <div class="col-md-1"></div>
+
+      <div class="col-md-4">
+        <form action="/upload-image" method="POST" enctype="multipart/form-data">
+
+          <div class="form-group">
+            <label>Select image</label>
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="image" id="image" onchange="readURL(this);">
+              <label class="custom-file-label" for="image">Select image...</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio1" value="chair" checked>
+              <label class="form-check-label" for="inlineRadio1">chair compliance</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio2" value="sales">
+              <label class="form-check-label" for="inlineRadio2">sales compliance</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="model_name" id="inlineRadio3" value="service">
+              <label class="form-check-label" for="inlineRadio3">service compliance</label>
+            </div>
+          </div>
+          <button type="submit" id="submit_button" class="btn btn-primary" onclick="on_toggler()">Run-model</button>
+
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        This should take up 80% of the height
+      </div>
+
+      <div class="col-md-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+
+      <div class="col-md-4">
+
+        <div id="your_image">
+          <img id="uploaded_image" src="#" onerror="this.style.display='none'" />
+        </div>
+        <div id="input">
+          {% if show_result %}
+          <p><img src="{{input_image}}" height="400" width="400" id="current_input"></p>
+          {% endif %}
+        </div>
+      </div>
+
+
+      <div class="col-md-6">
+        <div id="result">
+          {% if show_result %}
+          <p><img src="{{ output_image}}" height="400" width="600" vspace=""></p>
+          <script>document.getElementById("submit_button").disabled = true;</script>
+          {% endif %}
+
+        </div>
+
+        <div class="animator" id="loader" style="display: none;">
+          <img src="../static/img/sa.gif" width="300" height="300" vspace="300" >            
+          </div>
+      </div>
+
+        <div class="col-md-1"></div>
+    </div>
+  </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</html>
